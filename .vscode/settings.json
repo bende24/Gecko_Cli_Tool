@@ -7,8 +7,5 @@
         "source.unusedImports": "explicit",
       }
     },
-    "ruff.lineLength": 120,
-    "python.analysis.extraPaths": [
-      "./gko/domain"
-    ]
+    "ruff.lineLength": 120
 }

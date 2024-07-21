@@ -1,5 +1,6 @@
 import pytest
-from file_extension import check_gecko_json_extension
+
+from gko.domain.file_extension import check_gecko_json_extension
 
 
 def test_gecko_json_extension():
