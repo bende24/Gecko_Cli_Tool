@@ -1,0 +1,3 @@
+{
+    "script": {"command": "py print_script.py", "description": "This is a test script"}
+}
