@@ -1,6 +1,8 @@
-from typing import List
-import click
 from pathlib import Path
+from typing import List
+
+import click
+
 from gko.commands.execute_alias import execute_alias
 from gko.const import SETTINGS_FILE
 from gko.settings import load_settings

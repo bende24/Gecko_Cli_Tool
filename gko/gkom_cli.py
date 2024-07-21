@@ -1,10 +1,12 @@
-import click
 from pathlib import Path
 from typing import List, Optional
+
+import click
+
 from gko.commands.add_alias import add_alias
+from gko.commands.list_aliases import list_aliases
 from gko.commands.open_file import open_file
 from gko.commands.remove_alias import remove_alias
-from gko.commands.list_aliases import list_aliases
 from gko.const import SETTINGS_FILE
 from gko.settings import load_settings, save_settings
 

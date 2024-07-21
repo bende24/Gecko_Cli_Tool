@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional, Dict
+from typing import Dict, Optional, TypedDict
 
 
 class AliasDetails(TypedDict, total=False):

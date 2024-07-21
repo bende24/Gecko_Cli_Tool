@@ -1,9 +1,9 @@
+import json
 import os
 import subprocess
-from pathlib import Path
-import json
-from typing import List
 import sys
+from pathlib import Path
+from typing import List
 
 
 def execute_alias(alias_file: Path, alias: str, args: List[str]) -> None:

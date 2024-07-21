@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 from gko.const import DEFAULT_ALIAS_FILE
 from gko.types import Aliases
 

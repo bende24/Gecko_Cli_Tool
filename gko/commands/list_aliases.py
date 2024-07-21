@@ -1,5 +1,7 @@
 from pathlib import Path
+
 import click
+
 from gko.alias_mapping import load_aliases
 
 
