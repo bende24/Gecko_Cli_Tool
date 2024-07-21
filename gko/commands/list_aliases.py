@@ -2,6 +2,7 @@ from pathlib import Path
 import click
 from gko.alias_mapping import load_aliases
 
+
 def list_aliases(alias_file: Path) -> None:
     aliases = load_aliases(alias_file)
     if aliases:
