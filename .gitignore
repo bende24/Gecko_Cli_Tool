@@ -1,3 +1,4 @@
-/build
-/gko.egg-info
-/__pycache__
+build
+gko.egg-info
+__pycache__
+.pytest_cache

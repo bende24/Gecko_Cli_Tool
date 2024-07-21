@@ -8,6 +8,7 @@ from gko.commands.list_aliases import list_aliases
 from gko.commands.open_file import open_file
 from gko.commands.remove_alias import remove_alias
 from gko.const import SETTINGS_FILE
+from gko.domain.file_extension import check_gecko_json_extension
 from gko.settings import load_settings, save_settings
 
 
@@ -47,16 +48,19 @@ def list() -> None:
 
 
 @cli.command()
-@click.argument("new_alias_file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True))
-def switch(new_alias_file_path: str) -> None:
+@click.argument("alias_file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True))
+def switch(alias_file_path: str) -> None:
     """Switch to a new alias file"""
-    if not new_alias_file_path.lower().endswith(".json"):
-        click.echo(f"Error: The file '{new_alias_file_path}' is not a JSON file.")
+    if not alias_file_path.lower().endswith(".json"):
+        click.echo(f"Error: The file '{alias_file_path}' is not a JSON file.")
         return
 
-    settings = {"currentAliases": new_alias_file_path}
+    if not check_gecko_json_extension(alias_file_path):
+        click.echo("Warning: It is recommended to use .gecko.json extension for your alias files.")
+
+    settings = {"currentAliases": alias_file_path}
     save_settings(SETTINGS_FILE, settings)
-    click.echo(f"Switched to new alias file: {new_alias_file_path}")
+    click.echo(f"Switched to new alias file: {alias_file_path}")
 
 
 @cli.command()
