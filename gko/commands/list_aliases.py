@@ -1,12 +1,10 @@
-from pathlib import Path
-
 import click
 
-from gko.alias_mapping import load_aliases
+from gko.alias_mapping import AliasService
 
 
-def list_aliases(alias_file: Path) -> None:
-    aliases = load_aliases(alias_file)
+def list_aliases(alias_service: AliasService) -> None:
+    aliases = alias_service.load()
     if aliases:
         click.echo(f"{'Alias':<20}{'Description and/or Command [Relative/Global]'}")
         click.echo(f"{'-'*20}{'-'*40}")

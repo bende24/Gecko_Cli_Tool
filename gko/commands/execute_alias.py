@@ -1,26 +1,16 @@
-import json
 import os
 import subprocess
 import sys
-from pathlib import Path
 from typing import List, Optional
 
-from gko.settings import SettingsService
+from gko.alias_mapping import AliasService
 from gko.types import AliasDetails
 
 
-def execute_alias(settings_service: SettingsService, alias: str, args: List[str]) -> None:
+def execute_alias(alias_service: AliasService, alias: str, args: List[str]) -> None:
     """Run a command using an alias and display its output."""
 
-    settings = settings_service.load()
-    alias_file = Path(settings["currentAliases"])
-    # Load the alias mapping from the JSON file
-    if not alias_file.exists():
-        print(f"Error: Alias file does not exist: {alias_file}")
-        return
-
-    with alias_file.open("r") as f:
-        aliases = json.load(f)
+    aliases = alias_service.load()
 
     # Find the command for the alias
     if alias not in aliases:
@@ -35,7 +25,7 @@ def execute_alias(settings_service: SettingsService, alias: str, args: List[str]
 
     # Execute the command and display output
     try:
-        cwd: Optional[str] = os.path.dirname(alias_file) if alias_detail["relative"] else None
+        cwd: Optional[str] = os.path.dirname(alias_service.file_path()) if alias_detail["relative"] else None
 
         result = subprocess.Popen(
             command_with_args,

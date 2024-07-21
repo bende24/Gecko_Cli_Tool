@@ -3,6 +3,7 @@ from typing import List, Optional
 
 import click
 
+from gko.alias_mapping import AliasService
 from gko.commands.add_alias import add_alias
 from gko.commands.list_aliases import list_aliases
 from gko.commands.open_file import open_file
@@ -12,6 +13,7 @@ from gko.domain.file_extension import check_gecko_json_extension
 from gko.settings import SettingsService
 
 settings_service = SettingsService()
+alias_service = AliasService(settings_service)
 
 
 @click.group()
@@ -27,27 +29,21 @@ def cli() -> None:
 @click.option("-r", "--relative", is_flag=True, help="Whether the alias command is relative to the alias file location")
 def add(alias: str, command: List[str], description: Optional[str], relative: Optional[bool]) -> None:
     """Add a new alias."""
-    settings = settings_service.load()
-    alias_file = Path(settings["currentAliases"])
     command_str = " ".join(command)
-    add_alias(alias_file, alias, command_str, description, relative)
+    add_alias(settings_service, alias_service, alias, command_str, description, relative)
 
 
 @cli.command()
 @click.argument("alias")
 def remove(alias: str) -> None:
     """Remove an alias."""
-    settings = settings_service.load()
-    alias_file = Path(settings["currentAliases"])
-    remove_alias(alias_file, alias)
+    remove_alias(alias_service, alias)
 
 
 @cli.command()
 def list() -> None:
     """List all aliases."""
-    settings = settings_service.load()
-    alias_file = Path(settings["currentAliases"])
-    list_aliases(alias_file)
+    list_aliases(alias_service)
 
 
 @cli.command()

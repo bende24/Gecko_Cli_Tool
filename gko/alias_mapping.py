@@ -1,20 +1,27 @@
 import json
 from pathlib import Path
 
-from gko.const import DEFAULT_ALIAS_FILE
+from gko.settings import SettingsService
 from gko.types import Aliases
 
 
-def load_aliases(alias_file: Path) -> Aliases:
-    if alias_file.exists():
-        with open(alias_file, "r") as f:
-            return json.load(f)
+class AliasService:
+    def __init__(self, settings: SettingsService) -> None:
+        self.settings = settings
 
-    aliases = {}
-    save_aliases(DEFAULT_ALIAS_FILE, aliases)
-    return aliases
+    def load(self) -> Aliases:
+        alias_file = self.file_path()
+        if alias_file.exists():
+            with open(alias_file, "r") as f:
+                return json.load(f)
 
+        if not alias_file.exists():
+            raise Exception(f"Error: Alias file does not exist: {alias_file}")
 
-def save_aliases(alias_file: Path, aliases: Aliases) -> None:
-    with open(alias_file, "w+") as f:
-        json.dump(aliases, f, indent=4)
+    def save(self, aliases: Aliases) -> None:
+        alias_file = self.file_path()
+        with open(alias_file, "w+") as f:
+            json.dump(aliases, f, indent=4)
+
+    def file_path(self) -> Path:
+        return Path(self.settings.load()["currentAliases"])
