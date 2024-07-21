@@ -14,7 +14,7 @@ class SettingsService:
             with open(self.settings_file, "r") as f:
                 return json.load(f)
 
-        settings = {"currentAliases": str(DEFAULT_ALIAS_FILE)}
+        settings = DEFAULT_SETTINGS
         self.save(self.settings_file, settings)
         return settings
 
