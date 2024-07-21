@@ -4,6 +4,8 @@ from pathlib import Path
 from gko.const import DEFAULT_ALIAS_FILE
 from gko.types import Settings
 
+DEFAULT_SETTINGS: Settings = {"currentAliases": str(DEFAULT_ALIAS_FILE), "relative": False}
+
 
 def load_settings(settings_file: Path) -> Settings:
     if settings_file.exists():

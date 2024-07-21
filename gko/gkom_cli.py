@@ -22,12 +22,13 @@ def cli() -> None:
 @click.argument("alias")
 @click.argument("command", nargs=-1)
 @click.option("-d", "--description", default=None, help="Description of the alias")
-def add(alias: str, command: List[str], description: Optional[str]) -> None:
+@click.option("-r", "--relative", is_flag=True, help="Whether the alias command is relative to the alias file location")
+def add(alias: str, command: List[str], description: Optional[str], relative: Optional[bool]) -> None:
     """Add a new alias."""
     settings = load_settings(SETTINGS_FILE)
     alias_file = Path(settings["currentAliases"])
     command_str = " ".join(command)
-    add_alias(alias_file, alias, command_str, description)
+    add_alias(alias_file, alias, command_str, description, relative)
 
 
 @cli.command()

@@ -1,7 +1,10 @@
 import json
 from pathlib import Path
-from gko.const import DEFAULT_ALIAS_FILE, SETTINGS_FILE, USER_GKO_FOLDER
+
 from setuptools.command.install import install as _install
+
+from gko.const import DEFAULT_ALIAS_FILE, SETTINGS_FILE, USER_GKO_FOLDER
+from gko.settings import DEFAULT_SETTINGS
 
 
 class PostInstallCommand(_install):
@@ -21,6 +24,6 @@ class PostInstallCommand(_install):
                 json.dump({}, f, indent=4)
 
         if not SETTINGS_FILE.exists:
-            settings = {"currentAliases": str(DEFAULT_ALIAS_FILE)}
+            settings = DEFAULT_SETTINGS
             with open(SETTINGS_FILE, "w+") as f:
                 json.dump(settings, f, indent=4)

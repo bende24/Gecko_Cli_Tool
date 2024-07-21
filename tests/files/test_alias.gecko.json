@@ -1,3 +1,12 @@
 {
-    "script": {"command": "py print_script.py", "description": "This is a test script"}
+    "script": {
+        "command": "py print_script.py",
+        "description": "This is a test script",
+        "relative": true
+    },
+    "hi": {
+        "command": "echo Hi",
+        "description": null,
+        "relative": false
+    }
 }
