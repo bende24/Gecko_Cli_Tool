@@ -4,13 +4,19 @@ from typing import Optional
 import click
 
 from gko.alias_mapping import load_aliases, save_aliases
+from gko.settings import SettingsService
 
 
 def add_alias(
-    alias_file: Path, alias: str, command: str, description: Optional[str] = None, relative: Optional[bool] = None
+    settings_service: SettingsService,
+    alias_file: Path,
+    alias: str,
+    command: str,
+    description: Optional[str] = None,
+    relative: Optional[bool] = None,
 ) -> None:
     if relative is None:
-        relative = False  # TODO Settings
+        relative = settings_service.load()["defaultRelative"]
 
     aliases = load_aliases(alias_file)
     aliases[alias] = {"command": command, "description": description, "relative": relative}

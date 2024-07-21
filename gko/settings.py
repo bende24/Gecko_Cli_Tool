@@ -1,22 +1,23 @@
 import json
-from pathlib import Path
 
-from gko.const import DEFAULT_ALIAS_FILE
+from gko.const import DEFAULT_ALIAS_FILE, SETTINGS_FILE
 from gko.types import Settings
 
-DEFAULT_SETTINGS: Settings = {"currentAliases": str(DEFAULT_ALIAS_FILE), "relative": False}
+DEFAULT_SETTINGS: Settings = {"currentAliases": str(DEFAULT_ALIAS_FILE), "defaultRelative": False}
 
 
-def load_settings(settings_file: Path) -> Settings:
-    if settings_file.exists():
-        with open(settings_file, "r") as f:
-            return json.load(f)
+class SettingsService:
+    settings_file = SETTINGS_FILE
 
-    settings = {"currentAliases": str(DEFAULT_ALIAS_FILE)}
-    save_settings(settings_file, settings)
-    return settings
+    def load(self) -> Settings:
+        if self.settings_file.exists():
+            with open(self.settings_file, "r") as f:
+                return json.load(f)
 
+        settings = {"currentAliases": str(DEFAULT_ALIAS_FILE)}
+        self.save(self.settings_file, settings)
+        return settings
 
-def save_settings(settings_file: Path, settings: Settings) -> None:
-    with open(settings_file, "w+") as f:
-        json.dump(settings, f, indent=4)
+    def save(self, settings: Settings) -> None:
+        with open(self.settings_file, "w+") as f:
+            json.dump(settings, f, indent=4)

@@ -12,4 +12,4 @@ Aliases = Dict[str, AliasDetails]
 
 class Settings(TypedDict):
     currentAliases: str
-    relative: bool
+    defaultRelative: bool

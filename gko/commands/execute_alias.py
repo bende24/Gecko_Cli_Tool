@@ -5,11 +5,15 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
+from gko.settings import SettingsService
 from gko.types import AliasDetails
 
 
-def execute_alias(alias_file: Path, alias: str, args: List[str]) -> None:
+def execute_alias(settings_service: SettingsService, alias: str, args: List[str]) -> None:
     """Run a command using an alias and display its output."""
+
+    settings = settings_service.load()
+    alias_file = Path(settings["currentAliases"])
     # Load the alias mapping from the JSON file
     if not alias_file.exists():
         print(f"Error: Alias file does not exist: {alias_file}")

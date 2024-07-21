@@ -9,7 +9,9 @@ from gko.commands.open_file import open_file
 from gko.commands.remove_alias import remove_alias
 from gko.const import SETTINGS_FILE
 from gko.domain.file_extension import check_gecko_json_extension
-from gko.settings import load_settings, save_settings
+from gko.settings import SettingsService
+
+settings_service = SettingsService()
 
 
 @click.group()
@@ -25,7 +27,7 @@ def cli() -> None:
 @click.option("-r", "--relative", is_flag=True, help="Whether the alias command is relative to the alias file location")
 def add(alias: str, command: List[str], description: Optional[str], relative: Optional[bool]) -> None:
     """Add a new alias."""
-    settings = load_settings(SETTINGS_FILE)
+    settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])
     command_str = " ".join(command)
     add_alias(alias_file, alias, command_str, description, relative)
@@ -35,7 +37,7 @@ def add(alias: str, command: List[str], description: Optional[str], relative: Op
 @click.argument("alias")
 def remove(alias: str) -> None:
     """Remove an alias."""
-    settings = load_settings(SETTINGS_FILE)
+    settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])
     remove_alias(alias_file, alias)
 
@@ -43,7 +45,7 @@ def remove(alias: str) -> None:
 @cli.command()
 def list() -> None:
     """List all aliases."""
-    settings = load_settings(SETTINGS_FILE)
+    settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])
     list_aliases(alias_file)
 
@@ -60,14 +62,14 @@ def switch(alias_file_path: str) -> None:
         click.echo("Warning: It is recommended to use .gecko.json extension for your alias files.")
 
     settings = {"currentAliases": alias_file_path}
-    save_settings(SETTINGS_FILE, settings)
+    settings_service.save(settings)
     click.echo(f"Switched to new alias file: {alias_file_path}")
 
 
 @cli.command()
 def aliases() -> None:
     """Open the current alias file with the default system application."""
-    settings = load_settings(SETTINGS_FILE)
+    settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])
     open_file(alias_file)
 
