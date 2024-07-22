@@ -68,7 +68,7 @@ def switch(alias_file_path: str) -> None:
 
 
 @cli.command()
-def aliases() -> None:
+def alias() -> None:
     """Open the current alias file with the default system application."""
     settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])
