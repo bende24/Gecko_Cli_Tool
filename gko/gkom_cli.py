@@ -47,7 +47,9 @@ def remove(alias: str) -> None:
 
 @cli.command()
 def list() -> None:
-    """List all aliases."""
+    """List all aliases.
+    Relative scripts are relative to the alias file.
+    Global scripts are not."""
     list_aliases(alias_service)
 
 

@@ -11,8 +11,8 @@ def list_aliases(alias_service: AliasService) -> None:
         for alias, details in aliases.items():
             description = details.get("description", "")
             command = details["command"]
-            description_part = f" ({description})" if description else ""
+            description_part = f"{description}\n{'':<20}({command})" if description else command
             relative = "[Relative]" if details["relative"] else "[Global]"
-            click.echo(f"{alias:<20}{command}{description_part} {relative}")
+            click.echo(f"{alias:<20}{description_part} {relative}")
     else:
         click.echo("No aliases found.")
