@@ -47,7 +47,9 @@ def remove(alias: str) -> None:
 
 @cli.command()
 def list() -> None:
-    """List all aliases."""
+    """List all aliases.
+    Relative scripts are relative to the alias file.
+    Global scripts are not."""
     list_aliases(alias_service)
 
 
@@ -68,7 +70,7 @@ def switch(alias_file_path: str) -> None:
 
 
 @cli.command()
-def aliases() -> None:
+def alias() -> None:
     """Open the current alias file with the default system application."""
     settings = settings_service.load()
     alias_file = Path(settings["currentAliases"])

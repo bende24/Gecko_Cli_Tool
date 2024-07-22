@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 from setuptools.command.install import install as _install
@@ -19,11 +20,11 @@ class PostInstallCommand(_install):
     def create_files(self):
         Path(USER_GKO_FOLDER).mkdir(exist_ok=True)
 
-        if not DEFAULT_ALIAS_FILE.exists:
+        if not os.path.exists(DEFAULT_ALIAS_FILE):
             with open(DEFAULT_ALIAS_FILE, "w+") as f:
                 json.dump({}, f, indent=4)
 
-        if not SETTINGS_FILE.exists:
+        if not os.path.exists(SETTINGS_FILE):
             settings = DEFAULT_SETTINGS
             with open(SETTINGS_FILE, "w+") as f:
                 json.dump(settings, f, indent=4)
