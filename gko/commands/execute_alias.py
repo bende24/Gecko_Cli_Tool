@@ -27,19 +27,6 @@ def execute_alias(alias_service: AliasService, alias: str, args: List[str]) -> N
     try:
         cwd: Optional[str] = os.path.dirname(alias_service.file_path()) if alias_detail["relative"] else None
 
-        result = subprocess.Popen(
-            command_with_args,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
-            shell=True,
-            cwd=cwd,
-        )
-
-        for line in result.stdout:
-            sys.stdout.write(line)
-        if result.stderr:
-            for line in result.stderr:
-                sys.stderr.write(line)
+        subprocess.call(command_with_args, cwd=cwd, shell=True, universal_newlines=True)
     except subprocess.CalledProcessError as e:
         print(f"Error occurred: {e}", file=sys.stderr)
