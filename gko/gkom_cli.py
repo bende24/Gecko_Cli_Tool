@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import click
+from click_aliases import ClickAliasedGroup
 
 from gko.alias_mapping import AliasService
 from gko.commands.add_alias import add_alias
@@ -16,13 +17,13 @@ settings_service = SettingsService()
 alias_service = AliasService(settings_service)
 
 
-@click.group()
+@click.group(cls=ClickAliasedGroup)
 def cli() -> None:
     """Gko management commands"""
     pass
 
 
-@cli.command()
+@cli.command(aliases=["a"])
 @click.argument("alias")
 @click.argument("command", nargs=-1)
 @click.option("-d", "--description", default=None, help="Description of the alias")
@@ -33,19 +34,19 @@ def cli() -> None:
     help="Whether the alias command is relative to the alias file location (Default = False)",
 )
 def add(alias: str, command: List[str], description: Optional[str], relative: Optional[bool]) -> None:
-    """Add a new alias."""
+    """Add [COMMAND] as a new ALIAS."""
     command_str = " ".join(command)
     add_alias(settings_service, alias_service, alias, command_str, description, relative)
 
 
-@cli.command()
+@cli.command(aliases=["al"])
 @click.argument("alias")
 def remove(alias: str) -> None:
     """Remove an alias."""
     remove_alias(alias_service, alias)
 
 
-@cli.command()
+@cli.command(aliases=["l", "ls"])
 def list() -> None:
     """List all aliases.
     Relative scripts are relative to the alias file.
@@ -53,7 +54,7 @@ def list() -> None:
     list_aliases(alias_service)
 
 
-@cli.command()
+@cli.command(aliases=["sw"])
 @click.argument("alias_file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True))
 def switch(alias_file_path: str) -> None:
     """Switch to a new alias file"""
@@ -69,7 +70,7 @@ def switch(alias_file_path: str) -> None:
     click.echo(f"Switched to new alias file: {alias_file_path}")
 
 
-@cli.command()
+@cli.command(aliases=["al"])
 def alias() -> None:
     """Open the current alias file with the default system application."""
     settings = settings_service.load()
@@ -77,7 +78,7 @@ def alias() -> None:
     open_file(alias_file)
 
 
-@cli.command()
+@cli.command(aliases=["s"])
 def settings() -> None:
     """Open the settings file with the default system application."""
     open_file(SETTINGS_FILE)
