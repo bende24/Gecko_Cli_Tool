@@ -9,8 +9,10 @@ from gko.settings import SettingsService
 settings_service = SettingsService()
 alias_service = AliasService(settings_service)
 
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
-@click.command()
+
+@click.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("alias")
 @click.argument("args", nargs=-1)
 def cli(alias: str, args: List[str]) -> None:

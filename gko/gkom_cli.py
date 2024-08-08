@@ -16,8 +16,10 @@ from gko.settings import SettingsService
 settings_service = SettingsService()
 alias_service = AliasService(settings_service)
 
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
-@click.group(cls=ClickAliasedGroup)
+
+@click.group(cls=ClickAliasedGroup, context_settings=CONTEXT_SETTINGS)
 def cli() -> None:
     """Gko management commands"""
     pass
@@ -39,10 +41,10 @@ def add(alias: str, command: List[str], description: Optional[str], relative: Op
     add_alias(settings_service, alias_service, alias, command_str, description, relative)
 
 
-@cli.command(aliases=["al"])
+@cli.command(aliases=["r"])
 @click.argument("alias")
 def remove(alias: str) -> None:
-    """Remove an alias."""
+    """Remove ALIAS."""
     remove_alias(alias_service, alias)
 
 
